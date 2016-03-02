@@ -1,6 +1,9 @@
 # Heap
+[![Build Status](https://travis-ci.org/jamesotron/heap.svg?branch=master)](https://travis-ci.org/jamesotron/heap)
+[![Hex.pm](https://img.shields.io/hexpm/v/heap.svg)](https://hex.pm/packages/heap)
 
 A Heap is a very useful data structure, because it sorts, quickly, at insert time.
+
 
 See also: https://en.wikipedia.org/wiki/Heap_(data_structure)
 
