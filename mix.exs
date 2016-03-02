@@ -3,7 +3,7 @@ defmodule Heap.Mixfile do
 
   def project do
     [app: :heap,
-     version: "0.0.1",
+     version: "1.0.0",
      maintainers: [ "James Harton <james@messagerocket.co>" ],
      licenses: [ "MIT" ],
      links: %{
