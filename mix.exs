@@ -4,17 +4,12 @@ defmodule Heap.Mixfile do
   def project do
     [app: :heap,
      version: "1.0.0",
-     maintainers: [ "James Harton <james@messagerocket.co>" ],
-     licenses: [ "MIT" ],
-     links: %{
-       "GitHub" => "https://github.com/jamesotron/heap",
-       "Docs"   => "https://hexdocs.pm/heap"
-     },
      description: description,
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      preferred_cli_env: [espec: :test],
+     package: package,
      deps: deps]
   end
 
@@ -33,6 +28,17 @@ defmodule Heap.Mixfile do
       * Statistics
       * Priority queues
     """
+  end
+
+  def package do
+    [
+      maintainers: [ "James Harton <james@messagerocket.co>" ],
+      licenses: [ "MIT" ],
+      links: %{
+        "GitHub" => "https://github.com/jamesotron/heap",
+        "Docs"   => "https://hexdocs.pm/heap"
+      }
+    ]
   end
 
   # Dependencies can be Hex packages:
