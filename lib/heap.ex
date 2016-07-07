@@ -39,7 +39,7 @@ defmodule Heap do
   def empty?(%Heap{}), do: false
 
   @doc """
-  Test it the heap contains the element <elem>
+  Test if the heap contains the element <elem>
   """
   @spec member?(Heap.t, any()) :: boolean()
   def member?(%Heap{}=heap, value) do

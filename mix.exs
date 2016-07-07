@@ -10,7 +10,7 @@ defmodule Heap.Mixfile do
        "GitHub" => "https://github.com/jamesotron/heap",
        "Docs"   => "https://hexdocs.pm/heap"
      },
-     description: "Heap data structure and tools",
+     description: description,
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -23,6 +23,16 @@ defmodule Heap.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger]]
+  end
+
+  def description do
+    """
+    Small composable Heap implementation. Heaps sort elements at insert time.
+    They're good for:
+      * Scientific computing
+      * Statistics
+      * Priority queues
+    """
   end
 
   # Dependencies can be Hex packages:
