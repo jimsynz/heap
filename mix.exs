@@ -3,7 +3,7 @@ defmodule Heap.Mixfile do
 
   def project do
     [app: :heap,
-     version: "1.0.0",
+     version: "1.0.1",
      description: description,
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,

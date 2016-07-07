@@ -1,3 +1,3 @@
-%{"espec": {:hex, :espec, "0.8.15"},
-  "ex_doc": {:hex, :ex_doc, "0.11.4"},
-  "meck": {:hex, :meck, "0.8.4"}}
+%{"espec": {:hex, :espec, "0.8.15", "a3427bc1e7984caa5f23dc25316e869260b10c2336bf5bb2b928638ad224c7a8", [:mix], [{:meck, "~> 0.8.4", [hex: :meck, optional: false]}]},
+  "ex_doc": {:hex, :ex_doc, "0.11.4", "a064bdb720594c3745b94709b17ffb834fd858b4e0c1f48f37c0d92700759e02", [:mix], [{:earmark, "~> 0.1.17 or ~> 0.2", [hex: :earmark, optional: true]}]},
+  "meck": {:hex, :meck, "0.8.4", "59ca1cd971372aa223138efcf9b29475bde299e1953046a0c727184790ab1520", [:rebar, :make], []}}
