@@ -62,7 +62,7 @@ Full API documentation is available on (hexdocs.pm)[https://hexdocs.pm/heap]
 
 ## Contributing
 
-1. Fork it ( https://github.com/Huia/Huia/fork )
+1. Fork it ( https://github.com/jamesotron/heap/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
