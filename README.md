@@ -20,7 +20,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
   1. Add heap to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:heap, "~> 1.0.1"}]
+          [{:heap, "~> 1.1.0"}]
         end
 
 ## Examples

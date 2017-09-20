@@ -3,14 +3,13 @@ defmodule Heap.Mixfile do
 
   def project do
     [app: :heap,
-     version: "1.0.1",
-     description: description,
-     elixir: "~> 1.2",
+     version: "1.1.0",
+     description: description(),
+     elixir: "~> 1.5",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     preferred_cli_env: [espec: :test],
-     package: package,
-     deps: deps]
+     package: package(),
+     deps: deps()]
   end
 
   # Configuration for the OTP application
@@ -21,18 +20,12 @@ defmodule Heap.Mixfile do
   end
 
   def description do
-    """
-    Small composable Heap implementation. Heaps sort elements at insert time.
-    They're good for:
-      * Scientific computing
-      * Statistics
-      * Priority queues
-    """
+    "Small composable Heap implementation. Heaps sort elements at insert time."
   end
 
   def package do
     [
-      maintainers: [ "James Harton <james@messagerocket.co>" ],
+      maintainers: [ "James Harton <james@automat.nz>" ],
       licenses: [ "MIT" ],
       links: %{
         "GitHub" => "https://github.com/jamesotron/heap",
@@ -52,8 +45,9 @@ defmodule Heap.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:espec,    "~> 0.8.11", only: :test},
-      {:ex_doc,   "~> 0.11.4", only: :dev}
+      {:ex_doc,  ">= 0.0.0", only: :dev},
+      {:credo,   "~> 0.6",   only: ~w(dev test)a},
+      {:inch_ex, "~> 0.5",   only: :docs}
     ]
   end
 end
