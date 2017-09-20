@@ -1,5 +1,5 @@
 defmodule Heap do
-  defstruct h: nil, n: 0, d: nil
+  defstruct data: nil, size: 0, comparator: nil
   @moduledoc """
   A heap is a special tree data structure. Good for sorting and other magic.
 
@@ -59,7 +59,7 @@ defmodule Heap do
   """
   @spec new() :: t
   @spec new(:> | :<) :: t
-  def new(direction \\ :>), do: %Heap{d: direction}
+  def new(direction \\ :>), do: %Heap{comparator: direction}
 
   @doc """
   Test if the heap is empty.
@@ -77,7 +77,7 @@ defmodule Heap do
       false
   """
   @spec empty?(t) :: boolean()
-  def empty?(%Heap{h: nil, n: 0}), do: true
+  def empty?(%Heap{data: nil, size: 0}), do: true
   def empty?(%Heap{}), do: false
 
   @doc """
@@ -115,7 +115,7 @@ defmodule Heap do
       13
   """
   @spec push(t, any()) :: t
-  def push(%Heap{h: h, n: n, d: d}, v), do: %Heap{h: meld(h, {v, []}, d), n: n + 1, d: d}
+  def push(%Heap{data: h, size: n, comparator: d}, v), do: %Heap{data: meld(h, {v, []}, d), size: n + 1, comparator: d}
 
   @doc """
   Pop the root element off the heap and discard it.
@@ -130,8 +130,8 @@ defmodule Heap do
       2
   """
   @spec pop(t) :: t
-  def pop(%Heap{h: nil, n: 0}), do: nil
-  def pop(%Heap{h: {_, q}, n: n, d: d}), do: %Heap{h: pair(q, d), n: n - 1, d: d}
+  def pop(%Heap{data: nil, size: 0}), do: nil
+  def pop(%Heap{data: {_, q}, size: n, comparator: d}), do: %Heap{data: pair(q, d), size: n - 1, comparator: d}
 
   @doc """
   Return the element at the root of the heap.
@@ -149,8 +149,8 @@ defmodule Heap do
       1
   """
   @spec root(t) :: any()
-  def root(%Heap{h: {v, _}}), do: v
-  def root(%Heap{h: nil, n: 0}), do: nil
+  def root(%Heap{data: {v, _}}), do: v
+  def root(%Heap{data: nil, size: 0}), do: nil
 
   @doc """
   Return the number of elements in the heap.
@@ -164,7 +164,7 @@ defmodule Heap do
       10
   """
   @spec size(t) :: non_neg_integer()
-  def size(%Heap{n: n}), do: n
+  def size(%Heap{size: n}), do: n
 
   @doc """
   Return the comparator of the heap.
@@ -176,7 +176,7 @@ defmodule Heap do
       :<
   """
   @spec comparator(t) :: :< | :>
-  def comparator(%Heap{d: d}), do: d
+  def comparator(%Heap{comparator: d}), do: d
 
   defp meld(nil, queue, _), do: queue
   defp meld(queue, nil, _), do: queue
