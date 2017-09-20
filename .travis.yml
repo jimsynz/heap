@@ -6,7 +6,7 @@ otp_release:
 script:
   - mix test
   - mix credo --strict
-  - MIX_ENV=docs mix inch
+  - MIX_ENV=docs mix inch --pedantic
 after_script:
   - mix deps.get --only docs
   - MIX_ENV=docs mix inch.report

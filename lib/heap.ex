@@ -9,7 +9,7 @@ defmodule Heap do
   @type t :: %Heap{}
 
   @doc """
-  Create an empty min heap.
+  Create an empty min `Heap`.
 
   A min heap is a heap tree which always has the smallest value at the root.
 
@@ -25,7 +25,7 @@ defmodule Heap do
   def min, do: Heap.new(:>)
 
   @doc """
-  Create an empty max heap.
+  Create an empty max `Heap`.
 
   A max heap is a heap tree which always has the largest value at the root.
 
@@ -41,28 +41,37 @@ defmodule Heap do
   def max, do: Heap.new(:<)
 
   @doc """
-  Create an empty heap.
+  Create an empty `Heap` with the default comparator (`>`).
+
+  Defaults to `>`.
 
   ## Examples
-
-    Create an empty heap with the default direction.
 
       iex> Heap.new()
       ...>   |> Heap.comparator()
       :>
+  """
+  @spec new() :: t
+  def new, do: %Heap{comparator: :>}
 
-    Create an empty heap with a specific direction.
+  @doc """
+  Create an empty heap with a specific comparator.
+
+  Provide a `comparator` option, which can be either `:<` or `:>` to indicate
+  that the `Heap` should use Elixir's normal `<` or `>` comparison functions.
+
+  ## Examples
 
       iex> Heap.new(:<)
       ...>   |> Heap.comparator()
       :<
   """
-  @spec new() :: t
   @spec new(:> | :<) :: t
-  def new(direction \\ :>), do: %Heap{comparator: direction}
+  def new(:>), do: %Heap{comparator: :>}
+  def new(:<), do: %Heap{comparator: :<}
 
   @doc """
-  Test if the heap is empty.
+  Test if `heap` is empty.
 
   ## Examples
 
@@ -81,7 +90,7 @@ defmodule Heap do
   def empty?(%Heap{}), do: false
 
   @doc """
-  Test if the heap contains the element <elem>
+  Test if the `heap` contains the element `value`.
 
   ## Examples
 
@@ -105,7 +114,7 @@ defmodule Heap do
   end
 
   @doc """
-  Push a new element into the heap.
+  Push a new `value` into `heap`.
 
   ## Examples
 
@@ -115,10 +124,10 @@ defmodule Heap do
       13
   """
   @spec push(t, any()) :: t
-  def push(%Heap{data: h, size: n, comparator: d}, v), do: %Heap{data: meld(h, {v, []}, d), size: n + 1, comparator: d}
+  def push(%Heap{data: h, size: n, comparator: d}, value), do: %Heap{data: meld(h, {value, []}, d), size: n + 1, comparator: d}
 
   @doc """
-  Pop the root element off the heap and discard it.
+  Pop the root element off `heap` and discard it.
 
   ## Examples
 
@@ -130,11 +139,11 @@ defmodule Heap do
       2
   """
   @spec pop(t) :: t
-  def pop(%Heap{data: nil, size: 0}), do: nil
-  def pop(%Heap{data: {_, q}, size: n, comparator: d}), do: %Heap{data: pair(q, d), size: n - 1, comparator: d}
+  def pop(%Heap{data: nil, size: 0} = _heap), do: nil
+  def pop(%Heap{data: {_, q}, size: n, comparator: d} = _heap), do: %Heap{data: pair(q, d), size: n - 1, comparator: d}
 
   @doc """
-  Return the element at the root of the heap.
+  Return the element at the root of `heap`.
 
   ## Examples
 
@@ -149,11 +158,11 @@ defmodule Heap do
       1
   """
   @spec root(t) :: any()
-  def root(%Heap{data: {v, _}}), do: v
-  def root(%Heap{data: nil, size: 0}), do: nil
+  def root(%Heap{data: {v, _}} = _heap), do: v
+  def root(%Heap{data: nil, size: 0} = _heap), do: nil
 
   @doc """
-  Return the number of elements in the heap.
+  Return the number of elements in `heap`.
 
   ## Examples
 
@@ -167,7 +176,7 @@ defmodule Heap do
   def size(%Heap{size: n}), do: n
 
   @doc """
-  Return the comparator of the heap.
+  Return the comparator `heap` is using for insert comparisons.
 
   ## Examples
 
