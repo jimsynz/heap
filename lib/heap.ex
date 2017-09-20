@@ -1,5 +1,5 @@
 defmodule Heap do
-  defstruct h: nil, n: 0, d: nil
+  defstruct data: nil, size: 0, comparator: nil
   @moduledoc """
   A heap is a special tree data structure. Good for sorting and other magic.
 
@@ -9,91 +9,192 @@ defmodule Heap do
   @type t :: %Heap{}
 
   @doc """
-  Create an empty min heap.
+  Create an empty min `Heap`.
 
   A min heap is a heap tree which always has the smallest value at the root.
+
+  ## Examples
+
+      iex> 1..10
+      ...>   |> Enum.shuffle()
+      ...>   |> Enum.into(Heap.min())
+      ...>   |> Heap.root()
+      1
   """
-  @spec min() :: Heap.t
-  def min(), do: Heap.new(:>)
+  @spec min() :: t
+  def min, do: Heap.new(:>)
 
   @doc """
-  Create an empty max heap.
+  Create an empty max `Heap`.
 
   A max heap is a heap tree which always has the largest value at the root.
+
+  ## Examples
+
+      iex> 1..10
+      ...>   |> Enum.shuffle()
+      ...>   |> Enum.into(Heap.max())
+      ...>   |> Heap.root()
+      10
   """
-  @spec max() :: Heap.t
-  def max(), do: Heap.new(:<)
+  @spec max() :: t
+  def max, do: Heap.new(:<)
 
   @doc """
-  Create an empty heap.
+  Create an empty `Heap` with the default comparator (`>`).
+
+  Defaults to `>`.
+
+  ## Examples
+
+      iex> Heap.new()
+      ...>   |> Heap.comparator()
+      :>
   """
-  @spec new() :: Heap.t
-  @spec new(:> | :<) :: Heap.t
-  def new(direction \\ :>), do: %Heap{d: direction}
+  @spec new() :: t
+  def new, do: %Heap{comparator: :>}
 
   @doc """
-  Test if the heap is empty.
+  Create an empty heap with a specific comparator.
+
+  Provide a `comparator` option, which can be either `:<` or `:>` to indicate
+  that the `Heap` should use Elixir's normal `<` or `>` comparison functions.
+
+  ## Examples
+
+      iex> Heap.new(:<)
+      ...>   |> Heap.comparator()
+      :<
   """
-  @spec empty?(Heap.t) :: boolean()
-  def empty?(%Heap{h: nil, n: 0}), do: true
+  @spec new(:> | :<) :: t
+  def new(:>), do: %Heap{comparator: :>}
+  def new(:<), do: %Heap{comparator: :<}
+
+  @doc """
+  Test if `heap` is empty.
+
+  ## Examples
+
+      iex> Heap.new()
+      ...>   |> Heap.empty?()
+      true
+
+      iex> 1..10
+      ...>   |> Enum.shuffle()
+      ...>   |> Enum.into(Heap.new())
+      ...>   |> Heap.empty?()
+      false
+  """
+  @spec empty?(t) :: boolean()
+  def empty?(%Heap{data: nil, size: 0}), do: true
   def empty?(%Heap{}), do: false
 
   @doc """
-  Test if the heap contains the element <elem>
+  Test if the `heap` contains the element `value`.
+
+  ## Examples
+
+      iex> 1..10
+      ...>   |> Enum.shuffle()
+      ...>   |> Enum.into(Heap.new())
+      ...>   |> Heap.member?(11)
+      false
+
+      iex> 1..10
+      ...>   |> Enum.shuffle()
+      ...>   |> Enum.into(Heap.new())
+      ...>   |> Heap.member?(7)
+      true
   """
-  @spec member?(Heap.t, any()) :: boolean()
-  def member?(%Heap{}=heap, value) do
+  @spec member?(t, any()) :: boolean()
+  def member?(%Heap{} = heap, value) do
     root = Heap.root heap
     heap = Heap.pop heap
     has_member? heap, root, value
   end
 
   @doc """
-  Push a new element into the heap.
+  Push a new `value` into `heap`.
+
+  ## Examples
+
+      iex> Heap.new()
+      ...>   |> Heap.push(13)
+      ...>   |> Heap.root()
+      13
   """
-  @spec push(Heap.t, any()) :: Heap.t
-  def push(%Heap{h: h, n: n, d: d}, v), do: %Heap{h: meld(h, {v, []}, d), n: n + 1, d: d}
+  @spec push(t, any()) :: t
+  def push(%Heap{data: h, size: n, comparator: d}, value), do: %Heap{data: meld(h, {value, []}, d), size: n + 1, comparator: d}
 
   @doc """
-  Pop the root element off the heap and discard it.
+  Pop the root element off `heap` and discard it.
+
+  ## Examples
+
+      iex> 1..10
+      ...>   |> Enum.shuffle()
+      ...>   |> Enum.into(Heap.new())
+      ...>   |> Heap.pop()
+      ...>   |> Heap.root()
+      2
   """
-  @spec pop(Heap.t) :: Heap.t
-  def pop(%Heap{h: nil, n: 0}), do: nil
-  def pop(%Heap{h: {_, q}, n: n, d: d}), do: %Heap{h: pair(q, d), n: n - 1, d: d}
+  @spec pop(t) :: t
+  def pop(%Heap{data: nil, size: 0} = _heap), do: nil
+  def pop(%Heap{data: {_, q}, size: n, comparator: d} = _heap), do: %Heap{data: pair(q, d), size: n - 1, comparator: d}
 
   @doc """
-  Return the element at the root of the heap.
+  Return the element at the root of `heap`.
+
+  ## Examples
+
+      iex> Heap.new()
+      ...>   |> Heap.root()
+      nil
+
+      iex> 1..10
+      ...>   |> Enum.shuffle()
+      ...>   |> Enum.into(Heap.new())
+      ...>   |> Heap.root()
+      1
   """
-  @spec root(Heap.t) :: any()
-  def root(%Heap{h: {v, _}}), do: v
-  def root(%Heap{h: nil, n: 0}), do: nil
+  @spec root(t) :: any()
+  def root(%Heap{data: {v, _}} = _heap), do: v
+  def root(%Heap{data: nil, size: 0} = _heap), do: nil
 
   @doc """
-  Return the number of elements in the heap.
+  Return the number of elements in `heap`.
+
+  ## Examples
+
+      iex> 1..10
+      ...>   |> Enum.shuffle()
+      ...>   |> Enum.into(Heap.new())
+      ...>   |> Heap.size()
+      10
   """
-  @spec size(Heap.t) :: non_neg_integer()
-  def size(%Heap{n: n}), do: n
+  @spec size(t) :: non_neg_integer()
+  def size(%Heap{size: n}), do: n
 
   @doc """
-  Quickly sort an enumerable with a heap.
+  Return the comparator `heap` is using for insert comparisons.
+
+  ## Examples
+
+      iex> Heap.new(:<)
+      ...>   |> Heap.comparator()
+      :<
   """
-  @spec sort(Enum.t) :: List.t
-  @spec sort(Enum.t, :< | :>) :: List.t
-  def sort(enum, direction \\ :>) do
-    enum
-    |> Enum.into(Heap.new(direction))
-    |> Enum.to_list
-  end
+  @spec comparator(t) :: :< | :>
+  def comparator(%Heap{comparator: d}), do: d
 
   defp meld(nil, queue, _), do: queue
   defp meld(queue, nil, _), do: queue
 
-  defp meld({k0,l0}, {k1,_}=r, :>) when k0 < k1, do: {k0, [r | l0]}
-  defp meld({_,_}=l, {k1,r0}, :>), do: {k1, [l | r0]}
+  defp meld({k0, l0}, {k1, _} = r, :>) when k0 < k1, do: {k0, [r | l0]}
+  defp meld({_, _} = l, {k1, r0}, :>), do: {k1, [l | r0]}
 
-  defp meld({k0,l0}, {k1,_}=r, :<) when k0 > k1, do: {k0, [r | l0]}
-  defp meld({_,_}=l, {k1,r0}, :<), do: {k1, [l | r0]}
-
+  defp meld({k0, l0}, {k1, _} = r, :<) when k0 > k1, do: {k0, [r | l0]}
+  defp meld({_, _} = l, {k1, r0}, :<), do: {k1, [l | r0]}
 
   defp pair([], _), do: nil
   defp pair([q], _), do: q
