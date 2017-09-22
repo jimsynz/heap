@@ -56,6 +56,26 @@ Heap.new
 # => [:bread, :milk, :coffee, :eggs, :butter, :jam]
 ```
 
+The heap can also be constructed with a custom comparator:
+
+```elixir
+Heap.new(&(Date.compare(elem(&1, 0), elem(&2, 0)) == :gt))
+|> Heap.push({~D[2017-11-20], :jam})
+|> Heap.push({~D[2017-11-21], :milk})
+|> Heap.push({~D[2017-10-21], :bread})
+|> Heap.push({~D[2017-10-20], :eggs})
+|> Enum.map(fn {_, what} -> what end)
+# => [:milk, :jam, :bread, :eggs]
+```
+
+To access the root and the rest of the heap in one line use `Heap.split/1`:
+
+```elixir
+{root, rest} = Heap.split(heap)
+{root, rest} == {Heap.root(heap), Heap.pop(heap)}
+# => true
+```
+
 ### Documentation
 
 Full API documentation is available on (hexdocs.pm)[https://hexdocs.pm/heap]
