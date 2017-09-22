@@ -22,7 +22,7 @@ defmodule Heap do
       1
   """
   @spec min() :: t
-  def min, do: Heap.new(:>)
+  def min, do: Heap.new(:<)
 
   @doc """
   Create an empty max `Heap`.
@@ -38,7 +38,7 @@ defmodule Heap do
       10
   """
   @spec max() :: t
-  def max, do: Heap.new(:<)
+  def max, do: Heap.new(:>)
 
   @doc """
   Create an empty `Heap` with the default comparator (`>`).
@@ -49,10 +49,10 @@ defmodule Heap do
 
       iex> Heap.new()
       ...>   |> Heap.comparator()
-      :>
+      :<
   """
   @spec new() :: t
-  def new, do: %Heap{comparator: :>}
+  def new, do: %Heap{comparator: :<}
 
   @doc """
   Create an empty heap with a specific comparator.
@@ -90,7 +90,7 @@ defmodule Heap do
   def new(:>), do: %Heap{comparator: :>}
   def new(:<), do: %Heap{comparator: :<}
   @spec new(((any, any) -> boolean)) :: t
-  def new(fun), do: %Heap{comparator: fun}
+  def new(fun) when is_function(fun, 2), do: %Heap{comparator: fun}
   @doc """
   Test if `heap` is empty.
 
@@ -224,16 +224,17 @@ defmodule Heap do
   defp meld(nil, queue, _), do: queue
   defp meld(queue, nil, _), do: queue
 
-  defp meld({k0, l0}, {k1, _} = r, :>) when k0 < k1, do: {k0, [r | l0]}
-  defp meld({_, _} = l, {k1, r0}, :>), do: {k1, [l | r0]}
-
-  defp meld({k0, l0}, {k1, _} = r, :<) when k0 > k1, do: {k0, [r | l0]}
+  defp meld({k0, l0}, {k1, _} = r, :<) when k0 < k1, do: {k0, [r | l0]}
   defp meld({_, _} = l, {k1, r0}, :<), do: {k1, [l | r0]}
 
-  defp meld({k0, l0} = l, {k1, r0} = r, fun) do
+  defp meld({k0, l0}, {k1, _} = r, :>) when k0 > k1, do: {k0, [r | l0]}
+  defp meld({_, _} = l, {k1, r0}, :>), do: {k1, [l | r0]}
+
+  defp meld({k0, l0} = l, {k1, r0} = r, fun) when is_function(fun, 2) do
     case fun.(k0, k1) do
       true -> {k0, [r | l0]}
       false -> {k1, [l | r0]}
+      err -> raise("Comparator should return boolean, but returned '#{err}'.")
     end
   end
 
