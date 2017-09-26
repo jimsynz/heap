@@ -15,13 +15,17 @@ You can use it for things like:
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+This package is [available in Hex](https://hex.pm/packages/heap):
 
   1. Add heap to your list of dependencies in `mix.exs`:
 
+        ```elixir
         def deps do
-          [{:heap, "~> 1.1.0"}]
+          [{:heap, "~> 2.0"}]
         end
+        ```
+
+  2. Run `mix deps.get`
 
 ## Examples
 
@@ -54,6 +58,26 @@ Heap.new
 |> Heap.push({2, :coffee})
 |> Enum.map(fn {_, what} -> what end)
 # => [:bread, :milk, :coffee, :eggs, :butter, :jam]
+```
+
+The heap can also be constructed with a custom comparator:
+
+```elixir
+Heap.new(&(Date.compare(elem(&1, 0), elem(&2, 0)) == :gt))
+|> Heap.push({~D[2017-11-20], :jam})
+|> Heap.push({~D[2017-11-21], :milk})
+|> Heap.push({~D[2017-10-21], :bread})
+|> Heap.push({~D[2017-10-20], :eggs})
+|> Enum.map(fn {_, what} -> what end)
+# => [:milk, :jam, :bread, :eggs]
+```
+
+To access the root and the rest of the heap in one line use `Heap.split/1`:
+
+```elixir
+{root, rest} = Heap.split(heap)
+{root, rest} == {Heap.root(heap), Heap.pop(heap)}
+# => true
 ```
 
 ### Documentation
