@@ -27,6 +27,11 @@ This package is [available in Hex](https://hex.pm/packages/heap):
 
   2. Run `mix deps.get`
 
+## Deprecation warning
+
+If you're upgrading from `heap` < 2.0 be aware that the direction of the `:<`
+and `:>` atoms passed into `Heap.new/1` has changed to make more sense.
+
 ## Examples
 
 Create a min heap and use it to find the smallest element in a collection:
