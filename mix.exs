@@ -46,6 +46,7 @@ defmodule Heap.Mixfile do
   defp deps do
     [
       {:ex_doc,  ">= 0.0.0", only: :dev},
+      {:earmark, ">= 0.0.0", only: :dev},
       {:credo,   "~> 0.6",   only: ~w(dev test)a, runtime: false},
       {:inch_ex, "~> 0.5",   only: ~w(dev test)a, runtime: false}
     ]
