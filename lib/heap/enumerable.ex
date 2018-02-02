@@ -1,5 +1,4 @@
 defimpl Enumerable, for: Heap do
-
   @doc """
   Returns the number of elements in a heap.
 
@@ -10,9 +9,9 @@ defimpl Enumerable, for: Heap do
       ...>  |> Enum.count()
       500
   """
-  @spec count(Heap.t) :: non_neg_integer
+  @spec count(Heap.t()) :: non_neg_integer
   def count(heap) do
-    {:ok, Heap.size heap}
+    {:ok, Heap.size(heap)}
   end
 
   @doc """
@@ -30,7 +29,7 @@ defimpl Enumerable, for: Heap do
       ...>   |> Enum.member?(750)
       false
   """
-  @spec member?(Heap.t, term) :: boolean
+  @spec member?(Heap.t(), term) :: boolean
   def member?(heap, value) do
     {:ok, Heap.member?(heap, value)}
   end
@@ -47,17 +46,18 @@ defimpl Enumerable, for: Heap do
       ...>  |> Enum.count()
       250
   """
-  @spec reduce(Heap.t, Enumerable.acc, Enumerable.reducer) :: Enumerable.result
-  def reduce(_,    {:halt,    acc}, _fun), do: {:halted, acc}
-  def reduce(heap, {:suspend, acc},  fun), do: {:suspended, acc, &reduce(heap, &1, fun)}
-  def reduce(heap, {:cont,    acc},  fun) do
+  @spec reduce(Heap.t(), Enumerable.acc(), Enumerable.reducer()) :: Enumerable.result()
+  def reduce(_, {:halt, acc}, _fun), do: {:halted, acc}
+  def reduce(heap, {:suspend, acc}, fun), do: {:suspended, acc, &reduce(heap, &1, fun)}
+
+  def reduce(heap, {:cont, acc}, fun) do
     case Heap.root(heap) do
       nil ->
         {:done, acc}
+
       root ->
         heap = Heap.pop(heap)
         reduce(heap, fun.(root, acc), fun)
     end
   end
-
 end

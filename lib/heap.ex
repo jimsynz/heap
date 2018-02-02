@@ -1,5 +1,6 @@
 defmodule Heap do
   defstruct data: nil, size: 0, comparator: nil
+
   @moduledoc """
   A heap is a special tree data structure. Good for sorting and other magic.
 
@@ -89,8 +90,9 @@ defmodule Heap do
   @spec new(:> | :<) :: t
   def new(:>), do: %Heap{comparator: :>}
   def new(:<), do: %Heap{comparator: :<}
-  @spec new(((any, any) -> boolean)) :: t
+  @spec new((any, any -> boolean)) :: t
   def new(fun) when is_function(fun, 2), do: %Heap{comparator: fun}
+
   @doc """
   Test if `heap` is empty.
 
@@ -129,9 +131,9 @@ defmodule Heap do
   """
   @spec member?(t, any()) :: boolean()
   def member?(%Heap{} = heap, value) do
-    root = Heap.root heap
-    heap = Heap.pop heap
-    has_member? heap, root, value
+    root = Heap.root(heap)
+    heap = Heap.pop(heap)
+    has_member?(heap, root, value)
   end
 
   @doc """
@@ -145,7 +147,8 @@ defmodule Heap do
       13
   """
   @spec push(t, any()) :: t
-  def push(%Heap{data: h, size: n, comparator: d}, value), do: %Heap{data: meld(h, {value, []}, d), size: n + 1, comparator: d}
+  def push(%Heap{data: h, size: n, comparator: d}, value),
+    do: %Heap{data: meld(h, {value, []}, d), size: n + 1, comparator: d}
 
   @doc """
   Pop the root element off `heap` and discard it.
@@ -161,7 +164,9 @@ defmodule Heap do
   """
   @spec pop(t) :: t
   def pop(%Heap{data: nil, size: 0} = _heap), do: nil
-  def pop(%Heap{data: {_, q}, size: n, comparator: d} = _heap), do: %Heap{data: pair(q, d), size: n - 1, comparator: d}
+
+  def pop(%Heap{data: {_, q}, size: n, comparator: d} = _heap),
+    do: %Heap{data: pair(q, d), size: n - 1, comparator: d}
 
   @doc """
   Return the element at the root of `heap`.
@@ -240,6 +245,7 @@ defmodule Heap do
 
   defp pair([], _), do: nil
   defp pair([q], _), do: q
+
   defp pair([q0, q1 | q], d) do
     q2 = meld(q0, q1, d)
     meld(q2, pair(q, d), d)
@@ -247,8 +253,9 @@ defmodule Heap do
 
   defp has_member?(_, previous, compare) when previous == compare, do: true
   defp has_member?(nil, _, _), do: false
+
   defp has_member?(heap, _, compare) do
-    {previous, heap} = Heap.split heap
-    has_member? heap, previous, compare
+    {previous, heap} = Heap.split(heap)
+    has_member?(heap, previous, compare)
   end
 end
