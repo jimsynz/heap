@@ -42,7 +42,7 @@ defmodule Heap do
   def max, do: Heap.new(:>)
 
   @doc """
-  Create an empty `Heap` with the default comparator (`>`).
+  Create an empty `Heap` with the default comparator (`<`).
 
   Defaults to `>`.
 

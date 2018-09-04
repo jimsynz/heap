@@ -60,4 +60,11 @@ defimpl Enumerable, for: Heap do
         reduce(heap, fun.(root, acc), fun)
     end
   end
+
+  @doc """
+  There's no fast way to slice a Heap so we return `{:error, __MODULE__}` to
+  allow Elixir to use the default algorithm.
+  """
+  @spec slice(Heap.t()) :: {:error, __MODULE__}
+  def slice(_heap), do: {:error, __MODULE__}
 end

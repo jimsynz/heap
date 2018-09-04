@@ -1,6 +1,10 @@
 defimpl Inspect, for: Heap do
   import Inspect.Algebra
 
+  @moduledoc """
+  Implements `Inspect` for `Heap`.
+  """
+
   @doc """
   Format the heap nicely for inspection.
 

@@ -1,4 +1,8 @@
 defimpl Collectable, for: Heap do
+  @moduledoc """
+  Implements `Collectable` for `Heap`.
+  """
+
   @doc """
   Collect an enumerable into a heap.
 

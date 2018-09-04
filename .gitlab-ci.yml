@@ -1,0 +1,37 @@
+image: elixir:latest
+
+cache:
+  key: "$CI_JOB_NAME"
+  paths:
+    - deps
+    - _build
+    - /root/.mix
+
+variables:
+  MIX_ENV: "test"
+
+before_script:
+  - mix local.hex --force
+  - mix local.rebar --force
+  - mix deps.get --only test
+
+test:
+  script:
+     - mix test
+
+credo:
+  script:
+     - mix credo --strict
+
+audit:
+  script:
+    - mix hex.audit
+
+format:
+  script:
+    - mix format --check-formatted
+
+# inch:
+#   script:
+#      - mix inch --pedantic
+

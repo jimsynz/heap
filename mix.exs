@@ -4,7 +4,7 @@ defmodule Heap.Mixfile do
   def project do
     [
       app: :heap,
-      version: "2.0.0",
+      version: "2.0.1",
       description: description(),
       elixir: "~> 1.5",
       build_embedded: Mix.env() == :prod,
@@ -30,7 +30,7 @@ defmodule Heap.Mixfile do
       maintainers: ["James Harton <james@automat.nz>"],
       licenses: ["MIT"],
       links: %{
-        "GitHub" => "https://github.com/jamesotron/heap",
+        "Repository" => "https://gitlab.com/jimsy/heap",
         "Docs" => "https://hexdocs.pm/heap"
       }
     ]
@@ -49,8 +49,8 @@ defmodule Heap.Mixfile do
     [
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:earmark, ">= 0.0.0", only: :dev},
-      {:credo, "~> 0.6", only: ~w(dev test)a, runtime: false},
-      {:inch_ex, "~> 0.5", only: ~w(dev test)a, runtime: false}
+      {:credo, "~> 0.10", only: ~w(dev test)a, runtime: false},
+      {:inch_ex, "~> 1.0", only: ~w(dev test)a, runtime: false}
     ]
   end
 end
