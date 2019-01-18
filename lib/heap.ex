@@ -7,7 +7,11 @@ defmodule Heap do
   See also: [Heap (data structure) on Wikipedia](https://en.wikipedia.org/wiki/Heap_(data_structure)).
   """
 
-  @type t :: %Heap{}
+  @type t() :: %Heap{
+          data: tuple() | nil,
+          size: non_neg_integer(),
+          comparator: :> | :< | (any(), any() -> boolean())
+        }
 
   @doc """
   Create an empty min `Heap`.
@@ -162,7 +166,7 @@ defmodule Heap do
       ...>   |> Heap.root()
       2
   """
-  @spec pop(t) :: t
+  @spec pop(t) :: t | nil
   def pop(%Heap{data: nil, size: 0} = _heap), do: nil
 
   def pop(%Heap{data: {_, q}, size: n, comparator: d} = _heap),

@@ -9,7 +9,7 @@ defimpl Enumerable, for: Heap do
       ...>  |> Enum.count()
       500
   """
-  @spec count(Heap.t()) :: non_neg_integer
+  @spec count(Heap.t()) :: {:ok, non_neg_integer}
   def count(heap) do
     {:ok, Heap.size(heap)}
   end
@@ -29,7 +29,7 @@ defimpl Enumerable, for: Heap do
       ...>   |> Enum.member?(750)
       false
   """
-  @spec member?(Heap.t(), term) :: boolean
+  @spec member?(Heap.t(), term) :: {:ok, boolean}
   def member?(heap, value) do
     {:ok, Heap.member?(heap, value)}
   end
