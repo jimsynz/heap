@@ -14,7 +14,7 @@ defimpl Collectable, for: Heap do
       ...>   |> Heap.root
       1
   """
-  @spec into(Heap.t()) :: {list, function}
+  @spec into(Heap.t()) :: {term(), (term(), Collectable.command() -> Heap.t() | term())}
   def into(heap) do
     {heap,
      fn
