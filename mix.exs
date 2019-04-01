@@ -4,7 +4,7 @@ defmodule Heap.Mixfile do
   def project do
     [
       app: :heap,
-      version: "2.0.1",
+      version: "2.0.2",
       description: description(),
       elixir: "~> 1.5",
       build_embedded: Mix.env() == :prod,
