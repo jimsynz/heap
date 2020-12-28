@@ -1,10 +1,12 @@
 defmodule Heap.Mixfile do
   use Mix.Project
 
+  @version "2.0.2"
+
   def project do
     [
       app: :heap,
-      version: "2.0.2",
+      version: @version,
       description: description(),
       elixir: "~> 1.5",
       build_embedded: Mix.env() == :prod,
@@ -27,7 +29,7 @@ defmodule Heap.Mixfile do
 
   def package do
     [
-      maintainers: ["James Harton <james@automat.nz>"],
+      maintainers: ["James Harton <james@harton.nz>"],
       licenses: ["MIT"],
       links: %{
         "Repository" => "https://gitlab.com/jimsy/heap",
@@ -50,7 +52,7 @@ defmodule Heap.Mixfile do
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:earmark, ">= 0.0.0", only: :dev},
       {:credo, "~> 1.0", only: ~w(dev test)a, runtime: false},
-      {:inch_ex, "~> 2.0", only: ~w(dev test)a, runtime: false}
+      {:git_ops, "~> 2.3", only: ~w[dev test]a, runtime: false}
     ]
   end
 end

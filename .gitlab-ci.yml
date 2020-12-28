@@ -1,37 +1,139 @@
-image: elixir:latest
-
-cache:
-  key: "$CI_JOB_NAME"
-  paths:
-    - deps
-    - _build
-    - /root/.mix
+stages:
+  - build
+  - test
+  - release
 
 variables:
   MIX_ENV: "test"
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/"
+  HEX_HOME: "$CI_PROJECT_DIR/.hex"
+  MIX_HOME: "$CI_PROJECT_DIR/.mix"
 
-before_script:
-  - mix local.hex --force
-  - mix local.rebar --force
-  - mix deps.get --only test
+build:
+  image: elixir:latest
+  stage: build
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - deps
+      - _build
+      - .hex
+      - .mix
+  script:
+    - mix local.hex --force
+    - mix local.rebar --force
+    - mix deps.get
+    - mix deps.compile
+    - mix git_ops.project_info -f dotenv > project_info.env
+  artifacts:
+    paths:
+      - _build/
+      - deps/
+      - .hex
+      - .mix
+    reports:
+      dotenv: project_info.env
 
 test:
+  image: elixir:latest
+  dependencies:
+    - build
+  stage: test
   script:
-     - mix test
+    - mix test
 
 credo:
+  image: elixir:latest
+  dependencies:
+    - build
+  stage: test
   script:
-     - mix credo --strict
+    - mix credo
 
 audit:
+  image: elixir:latest
+  dependencies:
+    - build
+  stage: test
   script:
     - mix hex.audit
 
 format:
+  image: elixir:latest
+  dependencies:
+    - build
+  stage: test
   script:
     - mix format --check-formatted
 
-# inch:
-#   script:
-#      - mix inch --pedantic
+pages:
+  image: elixir:latest
+  dependencies:
+    - build
+  stage: release
+  script:
+    - mix docs -o public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
 
+git_ops:
+  image: elixir:latest
+  dependencies:
+    - build
+  stage: release
+  only:
+    refs:
+      - master
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /chore\:\ release version/
+  script:
+    - |
+      export OLD_APP_VERSION=$APP_VERSION
+      mkdir -p artifacts
+      git config --global user.name "Gitlab Runner for ${GITLAB_USER_NAME}"
+      git config --global user.email "${GITLAB_USER_EMAIL}"
+      mix git_ops.release --yes || true
+      mix git_ops.project_info -f shell > artifacts/env
+      source artifacts/env
+      if [ "v${OLD_APP_VERSION}" != "v${APP_VERSION}" ]; then
+        mix hex.build -o "artifacts/${APP_NAME}-${APP_VERSION}.tar"
+        gzip "artifacts/${APP_NAME}-${APP_VERSION}.tar"
+        mix docs && tar zcvf "artifacts/${APP_NAME}-${APP_VERSION}-docs.tar.gz" doc/
+        curl --header "JOB_TOKEN: ${CI_JOB_TOKEN}" --upload-file "artifacts/${APP_NAME}-${APP_VERSION}.tar.gz" "${PACKAGE_REGISTRY_URL}/${APP_NAME}/${APP_VERSION}/${APP_NAME}-${APP_VERSION}.tar.gz"
+        curl --header "JOB_TOKEN: ${CI_JOB_TOKEN}" --upload-file "artifacts/${APP_NAME}-${APP_VERSION}-docs.tar.gz" "${PACKAGE_REGISTRY_URL}/${APP_NAME}/${APP_VERSION}/${APP_NAME}-${APP_VERSION}-docs.tar.gz"
+        git push "https://project_${CI_PROJECT_ID}_bot:${RELEASE_TOKEN}@gitlab.com/${CI_PROJECT_PATH}.git" "HEAD:${CI_COMMIT_REF_NAME}" "refs/tags/v${APP_VERSION}"
+      fi
+  artifacts:
+    paths:
+      - artifacts/*
+
+release-gitlab:
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  dependencies:
+    - build
+  stage: release
+  only:
+    - tags
+    - /^v\d+\.\d+\.\d+(-\w+)?$/
+  script:
+    - release-cli create \
+      --name "Release ${APP_NAME} ${APP_VERSION}" \
+      --description "./CHANGELOG.md" \
+      --tag-name "v${APP_VERSION}" \
+      --assets-link "{\"name\":\"${APP_NAME}-${APP_VERSION}.tar.gz\",\"url\":\"${PACKAGE_REGISTRY_URL}/${APP_NAME}/${APP_VERSION}/${APP_NAME}-${APP_VERSION}.tar.gz\"}" \
+      --assets-link "{\"name\":\"${APP_NAME}-${APP_VERSION}-docs.tar.gz\",\"url\":\"${PACKAGE_REGISTRY_URL}/${APP_NAME}/${APP_VERSION}/${APP_NAME}-${APP_VERSION}-docs.tar.gz\"}"
+
+release-hex:
+  image: elixir:latest
+  dependencies:
+    - build
+  stage: release
+  only:
+    - tags
+    - /^v\d+\.\d+\.\d+(-\w+)?$/
+  script:
+    - mix hex.publish --yes
