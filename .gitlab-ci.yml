@@ -77,7 +77,7 @@ pages:
     paths:
       - public
   only:
-    - master
+    - main
 
 git_ops:
   image: elixir:latest
@@ -86,7 +86,7 @@ git_ops:
   stage: release
   only:
     refs:
-      - master
+      - main
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /chore\:\ release version/

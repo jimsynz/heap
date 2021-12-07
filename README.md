@@ -1,5 +1,5 @@
 # Heap
-[![Build Status](https://travis-ci.org/jamesotron/heap.svg?branch=master)](https://travis-ci.org/jamesotron/heap)
+[![Build Status](https://travis-ci.org/jamesotron/heap.svg?branch=main)](https://travis-ci.org/jamesotron/heap)
 [![Hex.pm](https://img.shields.io/hexpm/v/heap.svg)](https://hex.pm/packages/heap)
 [![Inline docs](http://inch-ci.org/github/jamesotron/heap.svg)](http://inch-ci.org/github/jamesotron/heap)
 
