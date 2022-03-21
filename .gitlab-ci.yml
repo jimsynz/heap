@@ -77,7 +77,7 @@ pages:
     paths:
       - public
   only:
-    - main
+    - main@jimsy/heap
 
 git_ops:
   image: elixir:latest
@@ -85,8 +85,7 @@ git_ops:
     - build
   stage: release
   only:
-    refs:
-      - main
+    - main@jimsy/heap
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /chore\:\ release version/
@@ -117,7 +116,7 @@ release-gitlab:
     - build
   stage: release
   only:
-    - tags
+    - tags@jimsy/heap
     - /^v\d+\.\d+\.\d+(-\w+)?$/
   script:
     - release-cli create \
@@ -133,7 +132,7 @@ release-hex:
     - build
   stage: release
   only:
-    - tags
+    - tags@jimsy/heap
     - /^v\d+\.\d+\.\d+(-\w+)?$/
   script:
     - mix hex.publish --yes
