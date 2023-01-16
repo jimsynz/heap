@@ -1,7 +1,7 @@
 # Heap
-[![Build Status](https://travis-ci.org/jamesotron/heap.svg?branch=main)](https://travis-ci.org/jamesotron/heap)
+[![pipeline status](https://gitlab.com/jimsy/heap/badges/main/pipeline.svg)](https://gitlab.com/jimsy/heap/commits/main)
 [![Hex.pm](https://img.shields.io/hexpm/v/heap.svg)](https://hex.pm/packages/heap)
-[![Inline docs](http://inch-ci.org/github/jamesotron/heap.svg)](http://inch-ci.org/github/jamesotron/heap)
+[![Hippocratic License HL3-FULL](https://img.shields.io/static/v1?label=Hippocratic%20License&message=HL3-FULL&labelColor=5e2751&color=bc8c3d)](https://firstdonoharm.dev/version/3/0/full.html)
 
 A Heap is a very useful data structure, because it sorts, quickly, at insert time.
 
@@ -97,3 +97,15 @@ Full API documentation is available on (hexdocs.pm)[https://hexdocs.pm/heap]
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## License
+
+This software is licensed under the terms of the
+[HL3-FULL](https://firstdonoharm.dev), see the `LICENSE.md` file included with
+this package for the terms.
+
+This license actively proscribes this software being used by and for some
+industries, countries and activities.  If your usage of this software doesn't
+comply with the terms of this license, then [contact me](mailto:james@harton.nz)
+with the details of your use-case to organise the purchase of a license - the
+cost of which may include a donation to a suitable charity or NGO.

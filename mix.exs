@@ -30,7 +30,7 @@ defmodule Heap.Mixfile do
   def package do
     [
       maintainers: ["James Harton <james@harton.nz>"],
-      licenses: ["MIT"],
+      licenses: ["HL3-FULL"],
       links: %{
         "Repository" => "https://gitlab.com/jimsy/heap",
         "Docs" => "https://hexdocs.pm/heap"
