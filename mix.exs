@@ -32,7 +32,7 @@ defmodule Heap.Mixfile do
       maintainers: ["James Harton <james@harton.nz>"],
       licenses: ["HL3-FULL"],
       links: %{
-        "Repository" => "https://gitlab.com/jimsy/heap",
+        "Repository" => "https://code.harton.nz/james/heap",
         "Docs" => "https://hexdocs.pm/heap"
       }
     ]
@@ -48,11 +48,17 @@ defmodule Heap.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
+    opts = [only: ~w[dev test]a, runtime: false]
+
     [
-      {:ex_doc, "~> 0.30", only: ~w[dev test]a},
-      {:earmark, "~> 1.4", only: ~w[dev test]a},
-      {:credo, "~> 1.6", only: ~w[dev test]a, runtime: false},
-      {:git_ops, "~> 2.4", only: ~w[dev test]a, runtime: false}
+      {:credo, "~> 1.7", opts},
+      {:dialyxir, "~> 1.3", opts},
+      {:doctor, "~> 0.21", opts},
+      {:earmark, ">= 0.0.0", opts},
+      {:ex_check, "~> 0.15", opts},
+      {:ex_doc, ">= 0.0.0", opts},
+      {:git_ops, "~> 2.6", opts},
+      {:mix_audit, "~> 2.1", opts}
     ]
   end
 end

@@ -7,7 +7,7 @@ defmodule Heap do
   See also: [Heap (data structure) on Wikipedia](https://en.wikipedia.org/wiki/Heap_(data_structure)).
   """
 
-  @type t() :: %Heap{
+  @type t :: %Heap{
           data: tuple() | nil,
           size: non_neg_integer(),
           comparator: :> | :< | (any(), any() -> boolean())
@@ -26,7 +26,7 @@ defmodule Heap do
       ...>   |> Heap.root()
       1
   """
-  @spec min() :: t
+  @spec min :: t
   def min, do: Heap.new(:<)
 
   @doc """
@@ -42,7 +42,7 @@ defmodule Heap do
       ...>   |> Heap.root()
       10
   """
-  @spec max() :: t
+  @spec max :: t
   def max, do: Heap.new(:>)
 
   @doc """
@@ -56,7 +56,7 @@ defmodule Heap do
       ...>   |> Heap.comparator()
       :<
   """
-  @spec new() :: t
+  @spec new :: t
   def new, do: %Heap{comparator: :<}
 
   @doc """
@@ -91,10 +91,9 @@ defmodule Heap do
         ...>   |> Enum.map(fn {_, what} -> what end)
         [:milk, :jam, :bread, :eggs]
   """
-  @spec new(:> | :<) :: t
+  @spec new(:> | :< | (any, any -> boolean)) :: t
   def new(:>), do: %Heap{comparator: :>}
   def new(:<), do: %Heap{comparator: :<}
-  @spec new((any, any -> boolean)) :: t
   def new(fun) when is_function(fun, 2), do: %Heap{comparator: fun}
 
   @doc """
@@ -214,7 +213,7 @@ defmodule Heap do
       ...>   |> Heap.comparator()
       :<
   """
-  @spec comparator(t) :: :< | :>
+  @spec comparator(t) :: :< | :> | (any, any -> boolean)
   def comparator(%Heap{comparator: d}), do: d
 
   @doc """
