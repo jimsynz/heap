@@ -1,32 +1,32 @@
 # Heap
-[![pipeline status](https://gitlab.com/jimsy/heap/badges/main/pipeline.svg)](https://gitlab.com/jimsy/heap/commits/main)
+
+[![Build Status](https://drone.harton.nz/api/badges/james/heap/status.svg?ref=refs/heads/main)](https://drone.harton.nz/james/heap)
 [![Hex.pm](https://img.shields.io/hexpm/v/heap.svg)](https://hex.pm/packages/heap)
 [![Hippocratic License HL3-FULL](https://img.shields.io/static/v1?label=Hippocratic%20License&message=HL3-FULL&labelColor=5e2751&color=bc8c3d)](https://firstdonoharm.dev/version/3/0/full.html)
 
 A Heap is a very useful data structure, because it sorts, quickly, at insert time.
 
-
 See also: https://en.wikipedia.org/wiki/Heap_(data_structure)
 
 You can use it for things like:
 
-  - Help with scientific computing
-  - Quickly sorting
-  - Priority queues
+- Help with scientific computing
+- Quickly sorting
+- Priority queues
 
 ## Installation
 
 This package is [available in Hex](https://hex.pm/packages/heap):
 
-  1. Add heap to your list of dependencies in `mix.exs`:
+1. Add heap to your list of dependencies in `mix.exs`:
 
-        ```elixir
-        def deps do
-          [{:heap, "~> 2.0"}]
-        end
-        ```
+   ```elixir
+   def deps do
+     [{:heap, "~> 2.0"}]
+   end
+   ```
 
-  2. Run `mix deps.get`
+2. Run `mix deps.get`
 
 ## Deprecation warning
 
@@ -105,7 +105,7 @@ This software is licensed under the terms of the
 this package for the terms.
 
 This license actively proscribes this software being used by and for some
-industries, countries and activities.  If your usage of this software doesn't
+industries, countries and activities. If your usage of this software doesn't
 comply with the terms of this license, then [contact me](mailto:james@harton.nz)
 with the details of your use-case to organise the purchase of a license - the
 cost of which may include a donation to a suitable charity or NGO.
