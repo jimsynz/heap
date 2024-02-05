@@ -32,7 +32,7 @@ defmodule Heap.Mixfile do
       maintainers: ["James Harton <james@harton.nz>"],
       licenses: ["HL3-FULL"],
       links: %{
-        "Repository" => "https://code.harton.nz/james/heap",
+        "Repository" => "https://harton.dev/james/heap",
         "Docs" => "https://hexdocs.pm/heap"
       }
     ]
