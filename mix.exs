@@ -12,7 +12,11 @@ defmodule Heap.Mixfile do
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: package(),
-      deps: deps()
+      deps: deps(),
+      docs: [
+        main: "readme",
+        extras: ["README.md", "CHANGELOG.md"]
+      ]
     ]
   end
 
@@ -33,7 +37,9 @@ defmodule Heap.Mixfile do
       licenses: ["HL3-FULL"],
       links: %{
         "Repository" => "https://harton.dev/james/heap",
-        "Docs" => "https://hexdocs.pm/heap"
+        "GitHub" => "https://github.com/jimsynz/heap",
+        "Changelog" => "https://docs.harton.nz/james/heap/changelog.html",
+        "Sponsor" => "https://github.com/sponsors/jimsynz"
       }
     ]
   end

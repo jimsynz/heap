@@ -1,6 +1,6 @@
 # Heap
 
-[![Build Status](https://drone.harton.nz/api/badges/james/heap/status.svg?ref=refs/heads/main)](https://drone.harton.nz/james/heap)
+[![Build Status](https://drone.harton.dev/api/badges/james/heap/status.svg?ref=refs/heads/main)](https://drone.harton.dev/james/heap)
 [![Hex.pm](https://img.shields.io/hexpm/v/heap.svg)](https://hex.pm/packages/heap)
 [![Hippocratic License HL3-FULL](https://img.shields.io/static/v1?label=Hippocratic%20License&message=HL3-FULL&labelColor=5e2751&color=bc8c3d)](https://firstdonoharm.dev/version/3/0/full.html)
 
@@ -16,17 +16,20 @@ You can use it for things like:
 
 ## Installation
 
-This package is [available in Hex](https://hex.pm/packages/heap):
+Heap is [available in Hex](https://hex.pm/packages/heap), the package can be
+installed by adding `heap` to your list of dependencies in `mix.exs`:
 
-1. Add heap to your list of dependencies in `mix.exs`:
+```elixir
+def deps do
+  [
+    {:heap, "~> 3.0.0"}
+  ]
+end
+```
 
-   ```elixir
-   def deps do
-     [{:heap, "~> 2.0"}]
-   end
-   ```
-
-2. Run `mix deps.get`
+Documentation for the latest release can be found on
+[HexDocs](https://hexdocs.pm/heap) and for the `main` branch on
+[docs.harton.nz](https://docs.harton.nz/james/heap).
 
 ## Deprecation warning
 
@@ -85,18 +88,6 @@ To access the root and the rest of the heap in one line use `Heap.split/1`:
 {root, rest} == {Heap.root(heap), Heap.pop(heap)}
 # => true
 ```
-
-### Documentation
-
-Full API documentation is available on (hexdocs.pm)[https://hexdocs.pm/heap]
-
-## Contributing
-
-1. Fork it ( https://harton.dev/repo/fork/50 )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
 
 ## License
 
